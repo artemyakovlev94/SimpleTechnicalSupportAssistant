@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleTechnicalSupportAssistant", "SimpleTechnicalSupportAssistant\SimpleTechnicalSupportAssistant.csproj", "{8C3977A0-82DA-462B-B6F8-0EDDF12B0995}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleTechnicalSupportFiles", "SimpleTechnicalSupportFiles\SimpleTechnicalSupportFiles.csproj", "{BD643B93-E42C-44B3-AA26-1C71C071A688}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8C3977A0-82DA-462B-B6F8-0EDDF12B0995}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C3977A0-82DA-462B-B6F8-0EDDF12B0995}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C3977A0-82DA-462B-B6F8-0EDDF12B0995}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD643B93-E42C-44B3-AA26-1C71C071A688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD643B93-E42C-44B3-AA26-1C71C071A688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD643B93-E42C-44B3-AA26-1C71C071A688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD643B93-E42C-44B3-AA26-1C71C071A688}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

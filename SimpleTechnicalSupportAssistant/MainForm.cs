@@ -10,16 +10,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Compression;
-using static TestReadHTTPLogs.Classes.SchemeXML;
 using System.Xml.Serialization;
-using static TestReadHTTPLogs.Classes.SchemeXML.FileIssue;
+using SimpleTechnicalSupportFiles;
+using static SimpleTechnicalSupportFiles.FileIssue;
+using static SimpleTechnicalSupportFiles.FileHTTPLogs;
 
 namespace SimpleTechnicalSupportAssistant
 {
     public partial class MainForm : Form
     {
         private string TempPath;
-        private Issue issue;
+        private Issue Issue;
 
         public MainForm()
         {
@@ -106,7 +107,7 @@ namespace SimpleTechnicalSupportAssistant
             {
                 ExtractArchiveToTempFolder(openFileDialog.FileName);
 
-                FileInfo fileInfo = new FileInfo(Path.Combine(TempPath, "Issue.xml"));
+                FileInfo fileInfo = new FileInfo(Path.Combine(TempPath, GetNameIssueFile()));
 
                 if (!fileInfo.Exists)
                 {
@@ -114,10 +115,10 @@ namespace SimpleTechnicalSupportAssistant
                 }
                 else
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(FileIssue.Issue));
+                    XmlSerializer serializer = new XmlSerializer(typeof(Issue));
 
                     using (FileStream fs = new FileStream(fileInfo.FullName, FileMode.OpenOrCreate))
-                        issue = serializer.Deserialize(fs) as FileIssue.Issue;
+                        Issue = serializer.Deserialize(fs) as Issue;
 
                     LoadDataForm();
                 }
@@ -139,7 +140,7 @@ namespace SimpleTechnicalSupportAssistant
             {
                 ExtractArchiveToTempFolder(openFileDialog.FileName);
 
-                FileInfo fileInfo = new FileInfo(Path.Combine(TempPath, "Log.xml"));
+                FileInfo fileInfo = new FileInfo(Path.Combine(TempPath, GetNameHTTPLogFile()));
 
                 if (!fileInfo.Exists)
                 {
@@ -148,12 +149,12 @@ namespace SimpleTechnicalSupportAssistant
                 else
                 {
 
-                    issue.HTTPLogs = new HTTPLogs();
+                    Issue.HTTPLogs = new HTTPLogs();
 
                     XmlSerializer serializer = new XmlSerializer(typeof(FileHTTPLogs.Logs));
 
                     using (FileStream fs = new FileStream(fileInfo.FullName, FileMode.OpenOrCreate))
-                        issue.HTTPLogs.Logs = serializer.Deserialize(fs) as FileHTTPLogs.Logs;
+                        Issue.HTTPLogs.Logs = serializer.Deserialize(fs) as FileHTTPLogs.Logs;
 
                     LoadDataForm();
                 }
@@ -173,13 +174,14 @@ namespace SimpleTechnicalSupportAssistant
         private void LoadDataForm()
         {
             tabControlMain.Visible = true;
+
         }
 
         private void ResetDataForm()
         {
             ClearTempFolder();
 
-            issue = new Issue();
+            Issue = new Issue();
 
             tabControlMain.Visible = false;
         }
