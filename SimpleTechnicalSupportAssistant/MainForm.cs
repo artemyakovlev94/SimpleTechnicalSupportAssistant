@@ -175,6 +175,25 @@ namespace SimpleTechnicalSupportAssistant
         {
             tabControlMain.Visible = true;
 
+            foreach (var log in Issue.HTTPLogs.Logs.Log)
+            {
+                int i = dgwHTTPLogging.Rows.Add();
+                dgwHTTPLogging.Rows[i].Cells["dgwHTTPLoggingSID"].Value = log.SID;
+                dgwHTTPLogging.Rows[i].Cells["dgwHTTPLoggingDate"].Value = log.Date;
+                dgwHTTPLogging.Rows[i].Cells["dgwHTTPLoggingMethod"].Value = log.Method;
+                dgwHTTPLogging.Rows[i].Cells["dgwHTTPLoggingStatusCode"].Value = log.StatusCode;
+                dgwHTTPLogging.Rows[i].Cells["dgwHTTPLoggingDeviceID"].Value = log.DeviceID;
+                dgwHTTPLogging.Rows[i].Cells["dgwHTTPLoggingSession"].Value = log.Session;
+                dgwHTTPLogging.Rows[i].Cells["dgwHTTPLoggingTimestamp"].Value = log.Timestamp;
+                dgwHTTPLogging.Rows[i].Cells["dgwHTTPLoggingURL"].Value = log.URL.url;
+                dgwHTTPLogging.Rows[i].Cells["dgwHTTPLoggingUserName"].Value = log.User.Name;
+
+                using (StreamReader sr = new StreamReader(Path.Combine(TempPath, log.Data.Path, log.Data.Request)))
+                    dgwHTTPLogging.Rows[i].Cells["dgwHTTPLoggingRequestData"].Value = sr.ReadToEnd();
+
+                using (StreamReader sr = new StreamReader(Path.Combine(TempPath, log.Data.Path, log.Data.Response)))
+                    dgwHTTPLogging.Rows[i].Cells["dgwHTTPLoggingResponseData"].Value = sr.ReadToEnd();
+            }
         }
 
         private void ResetDataForm()
@@ -184,6 +203,46 @@ namespace SimpleTechnicalSupportAssistant
             Issue = new Issue();
 
             tabControlMain.Visible = false;
+
+            dgwHTTPLogging.Rows.Clear();
+            tbHTTPLoggingSearch.Text = string.Empty;
+            tbHTTPLoggingRequest.Text = string.Empty;
+            tbHTTPLoggingResponse.Text = string.Empty;
+        }
+
+        private void dgwHTTPLogging_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            var requestData = dgwHTTPLogging.Rows[e.RowIndex].Cells["dgwHTTPLoggingRequestData"].Value;
+            if (requestData != null)
+                tbHTTPLoggingRequest.Text = requestData.ToString();
+
+            var responseData = dgwHTTPLogging.Rows[e.RowIndex].Cells["dgwHTTPLoggingResponseData"].Value;
+            if (responseData != null)
+                tbHTTPLoggingResponse.Text = responseData.ToString();
+        }
+
+        private void tbHTTPLoggingSearch_TextChanged(object sender, EventArgs e)
+        {
+            dgwHTTPLogging.ClearSelection();
+
+            if (string.IsNullOrWhiteSpace(tbHTTPLoggingSearch.Text))
+                return;
+
+            var values = tbHTTPLoggingSearch.Text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            for (int i = 0; i < dgwHTTPLogging.RowCount; i++)
+            {
+                foreach (string value in values)
+                {
+                    var row = dgwHTTPLogging.Rows[i];
+
+                    if (row.Cells["dgwHTTPLoggingRequestData"].Value.ToString().Contains(value) ||
+                        row.Cells["dgwHTTPLoggingResponseData"].Value.ToString().Contains(value))
+                    {
+                        row.Selected = true;
+                    }
+                }
+            }
         }
     }
 }
