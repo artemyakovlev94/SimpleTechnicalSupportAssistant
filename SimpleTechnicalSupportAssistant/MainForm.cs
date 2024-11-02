@@ -70,14 +70,10 @@ namespace SimpleTechnicalSupportAssistant
                 {
                     var tempFiles = dirInfo.EnumerateFiles("*", SearchOption.AllDirectories);
                     foreach (var tempFile in tempFiles)
-                    {
                         tempFile.Delete();
-                        if (!tempFile.Directory.EnumerateFileSystemInfos().Any())
-                            tempFile.Directory.Delete();
-                    }
 
                     foreach (var dirTemp in dirInfo.EnumerateDirectories())
-                        dirTemp.Delete();
+                        dirTemp.Delete(true);
                 }
             }
             catch (Exception ex)
