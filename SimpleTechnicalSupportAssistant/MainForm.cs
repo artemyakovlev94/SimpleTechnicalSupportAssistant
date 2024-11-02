@@ -9,7 +9,6 @@ using System.Xml.Serialization;
 using SimpleTechnicalSupportFiles;
 using static SimpleTechnicalSupportFiles.FileIssue;
 using static SimpleTechnicalSupportFiles.FileHTTPLogs;
-using System.Reflection;
 using static SimpleTechnicalSupportFiles.RegistrionLog;
 
 namespace SimpleTechnicalSupportAssistant
