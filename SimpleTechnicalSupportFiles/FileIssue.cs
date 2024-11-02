@@ -20,7 +20,7 @@ namespace SimpleTechnicalSupportFiles
             public HTTPLogs HTTPLogs { get; set; }
 
             [XmlElement("LogFiles")]
-            public LogFiles LogFiles { get; set; }
+            public RegistrionLogs RegistrionLogs { get; set; }
 
             [XmlElement("Attachments")]
             public Attachments Attachments { get; set; }
@@ -232,13 +232,16 @@ namespace SimpleTechnicalSupportFiles
             public FileHTTPLogs.Logs Logs;
         }
 
-        public class LogFiles
+        public class RegistrionLogs
         {
             [XmlAttribute("Path")]
             public string Path;
 
             [XmlElement("LogFile")]
             public List<File> files;
+
+            [XmlIgnore]
+            public List<RegistrionLog.Log> Logs;
         }
 
         public class File
@@ -248,6 +251,9 @@ namespace SimpleTechnicalSupportFiles
 
             [XmlAttribute("Path")]
             public string Path;
+
+            [XmlIgnore]
+            public string extension;
         }
 
         public class Attachments
